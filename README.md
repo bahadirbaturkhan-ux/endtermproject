@@ -76,5 +76,19 @@ JDBC
 PostgreSQL  
 Maven
 
+## API Testing (Postman)
+
+### Create Account (POST)
+![photo_2026-02-11 01.51.14.jpeg](../../../Users/batyrhanbahadyr/Downloads/photo_2026-02-11%2001.51.14.jpeg)
+
+### Update Account Balance (PUT)
+![photo_2026-02-11 01.51.27.jpeg](../../../Users/batyrhanbahadyr/Downloads/photo_2026-02-11%2001.51.27.jpeg)
+
+### Get All Accounts (GET)
+![photo_2026-02-11 01.51.29.jpeg](../../../Users/batyrhanbahadyr/Downloads/photo_2026-02-11%2001.51.29.jpeg)
+
+### Delete Account (DELETE)
+![photo_2026-02-11 01.51.30.jpeg](../../../Users/batyrhanbahadyr/Downloads/photo_2026-02-11%2001.51.30.jpeg)
+
 ## Author
 Batyrkhan Bakhadir
