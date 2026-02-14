@@ -146,7 +146,7 @@ class CacheServiceImpl
 class CustomerRepository
 class AccountRepository
 
-class InMemoryCache <<Singleton>> {
+class InMemoryCache {
   - instance
   - store : ConcurrentHashMap
   + getInstance()
@@ -155,6 +155,8 @@ class InMemoryCache <<Singleton>> {
   + invalidate(key)
   + clear()
 }
+
+note for InMemoryCache "Singleton"
 
 CustomerController --> CustomerService
 AccountController --> AccountService
