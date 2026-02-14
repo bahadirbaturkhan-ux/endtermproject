@@ -13,39 +13,39 @@ import java.util.List;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-    private final AccountService service;
+    private final AccountService accountService;
 
-    public AccountController(AccountService service) {
-        this.service = service;
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @PostMapping
     public AccountResponse create(@Valid @RequestBody AccountCreateRequest req) {
-        return service.create(req);
+        return accountService.create(req);
     }
 
     @GetMapping("/{id}")
     public AccountResponse getById(@PathVariable int id) {
-        return service.getById(id);
+        return accountService.getById(id);
     }
 
     @GetMapping
     public List<AccountResponse> getAll() {
-        return service.getAll();
+        return accountService.getAll();
     }
 
-    @GetMapping("/by-customer/{customerId}")
-    public List<AccountResponse> byCustomer(@PathVariable int customerId) {
-        return service.getByCustomerId(customerId);
+    @GetMapping("/customer/{customerId}")
+    public List<AccountResponse> getByCustomer(@PathVariable int customerId) {
+        return accountService.getByCustomerId(customerId);
     }
 
     @PutMapping("/{id}/balance")
     public AccountResponse updateBalance(@PathVariable int id, @Valid @RequestBody AccountUpdateRequest req) {
-        return service.updateBalance(id, req);
+        return accountService.updateBalance(id, req);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
-        service.delete(id);
+        accountService.delete(id);
     }
 }
