@@ -111,17 +111,16 @@ One Customer can have multiple Accounts.
 classDiagram
 
 class Customer {
-  Long id
+  Integer id
   String name
   String email
 }
 
 class AccountBase {
-  Long id
+  Integer id
   String accountNumber
   BigDecimal balance
-  String type
-  Long customerId
+  Integer customerId
 }
 
 class SavingsAccount
@@ -134,15 +133,42 @@ Customer "1" --> "many" AccountBase : owns
 
 class CustomerController
 class AccountController
+class CacheController
+
 class CustomerService
 class AccountService
+class CacheService
+
+class CustomerServiceImpl
+class AccountServiceImpl
+class CacheServiceImpl
+
 class CustomerRepository
 class AccountRepository
 
+class InMemoryCache <<Singleton>> {
+  - instance
+  - store : ConcurrentHashMap
+  + getInstance()
+  + get(key)
+  + put(key,value)
+  + invalidate(key)
+  + clear()
+}
+
 CustomerController --> CustomerService
 AccountController --> AccountService
-CustomerService --> CustomerRepository
-AccountService --> AccountRepository
+CacheController --> CacheService
+
+CustomerService <|.. CustomerServiceImpl
+AccountService <|.. AccountServiceImpl
+CacheService <|.. CacheServiceImpl
+
+CustomerServiceImpl --> CustomerRepository
+AccountServiceImpl --> AccountRepository
+
+AccountServiceImpl --> CacheService : uses
+CacheServiceImpl --> InMemoryCache : uses
 
 ```
 
@@ -180,6 +206,45 @@ endtermproject
 └── resources
 ├── application.properties
 └── schema.sql
+
+
+## 🔹 Bonus Task – In-Memory Cache (Singleton)
+
+An in-memory cache was implemented using the Singleton design pattern to improve
+performance for frequently requested data.
+
+### 🔧 Implementation Details
+
+- Cache storage: `ConcurrentHashMap`
+- Pattern used: **Singleton**
+- Cached endpoint: `GET /api/accounts`
+- Cache is stored in `InMemoryCache` class
+- Access to cache is done via `CacheService`
+- Business logic uses cache inside `AccountServiceImpl`
+
+### ♻️ Cache Invalidation
+
+Cache is automatically cleared after any data modification:
+
+- `POST /api/accounts`
+- `PUT /api/accounts/{id}/balance`
+- `DELETE /api/accounts/{id}`
+
+Manual cache reset endpoint:
+
+### 🚀 Benefits
+
+- Reduces database calls
+- Improves response time
+- Keeps data consistent after updates
+
+### 🧪 How to Test Cache
+
+1. Call `GET /api/accounts` → data loaded from DB and cached
+2. Call `GET /api/accounts` again → data returned from cache
+3. Create or update an account → cache invalidated
+4. Call `GET /api/accounts` → data loaded from DB again
+5. Call `DELETE /api/cache/clear` → cache cleared manually
 
 ```
 ## How to Run
@@ -219,3 +284,4 @@ Maven
 
 ## Author
 Batyrkhan Bakhadir
+
